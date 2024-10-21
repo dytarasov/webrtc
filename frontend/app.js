@@ -41,8 +41,9 @@ loginButton.addEventListener('click', () => {
 // Функция для старта видеочата
 async function startChat() {
     // Проверка поддержки mediaDevices
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!navigator || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         console.error('Ваш браузер не поддерживает доступ к камере и микрофону');
+        alert('Ваш браузер не поддерживает доступ к камере и микрофону. Пожалуйста, используйте современный браузер, такой как Chrome, Firefox или Edge.');
         return;
     }
 
@@ -52,6 +53,7 @@ async function startChat() {
         localVideo.srcObject = localStream;
     } catch (error) {
         console.error('Ошибка доступа к камере и микрофону:', error);
+        alert('Ошибка доступа к камере и микрофону. Проверьте настройки вашего браузера и убедитесь, что вы дали разрешение на использование камеры и микрофона.');
         return;
     }
 
@@ -75,6 +77,7 @@ async function startChat() {
 
     websocket.onerror = (error) => {
         console.error('Ошибка WebSocket:', error);
+        alert('Ошибка WebSocket соединения. Проверьте соединение с интернетом и перезапустите страницу.');
     };
 
     websocket.onclose = () => {
