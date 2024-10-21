@@ -40,6 +40,12 @@ loginButton.addEventListener('click', () => {
 
 // Функция для старта видеочата
 async function startChat() {
+    // Проверка поддержки mediaDevices
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        console.error('Ваш браузер не поддерживает доступ к камере и микрофону');
+        return;
+    }
+
     // Получение видеопотока с камеры
     try {
         localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -50,7 +56,7 @@ async function startChat() {
     }
 
     // Устанавливаем WebSocket соединение с сигнальным сервером
-    websocket = new WebSocket('ws://localhost:450/ws');
+    websocket = new WebSocket('ws://212.237.217.86:450/ws');
 
     websocket.onopen = () => {
         console.log('WebSocket соединение установлено');
@@ -65,6 +71,10 @@ async function startChat() {
         } else if (message.type === 'candidate') {
             await handleCandidate(message);
         }
+    };
+
+    websocket.onerror = (error) => {
+        console.error('Ошибка WebSocket:', error);
     };
 
     websocket.onclose = () => {
@@ -85,7 +95,9 @@ function createPeerConnection() {
 
     // Обработка получения удаленного трека
     peerConnection.ontrack = event => {
-        remoteVideo.srcObject = event.streams[0];
+        if (event.streams && event.streams[0]) {
+            remoteVideo.srcObject = event.streams[0];
+        }
     };
 
     // Обработка ICE кандидатов
@@ -123,13 +135,17 @@ async function handleOffer(message) {
 
 // Обработка ответа (SDP Answer) от другого клиента
 async function handleAnswer(message) {
-    await peerConnection.setRemoteDescription(new RTCSessionDescription(message.answer));
+    if (peerConnection) {
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(message.answer));
+    }
 }
 
 // Обработка ICE-кандидатов, полученных от другого клиента
 async function handleCandidate(message) {
     try {
-        await peerConnection.addIceCandidate(message.candidate);
+        if (peerConnection) {
+            await peerConnection.addIceCandidate(message.candidate);
+        }
     } catch (error) {
         console.error('Ошибка при добавлении ICE кандидата:', error);
     }
