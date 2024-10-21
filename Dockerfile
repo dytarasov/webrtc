@@ -17,6 +17,9 @@ COPY ./app /app
 # Stage 2: Подготовка для раздачи фронта и запуска бэкенда
 FROM python:3.12-slim
 
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
 # Копируем Nginx и устанавливаем необходимые пакеты
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
