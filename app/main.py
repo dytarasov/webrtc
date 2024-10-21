@@ -4,7 +4,8 @@ from typing import List
 from fastapi import FastAPI, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
 import models, schemas, utils
-from app import auth, database
+import auth
+import database
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
