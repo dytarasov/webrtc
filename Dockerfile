@@ -4,8 +4,10 @@ FROM python:3.12 as backend
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем и устанавливаем зависимости
-COPY ./app/requirements.txt /app/
+# Копируем файл requirements.txt
+COPY requirements.txt /app/
+
+# Устанавливаем зависимости, включая Uvicorn
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем все файлы приложения
@@ -22,6 +24,9 @@ COPY ./frontend /usr/share/nginx/html
 
 # Копируем FastAPI сервер из предыдущего слоя в контейнер
 COPY --from=backend /app /app
+
+# Устанавливаем Uvicorn
+RUN apk add --no-cache python3 py3-pip && pip install uvicorn
 
 # Команда для запуска Uvicorn и Nginx
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]

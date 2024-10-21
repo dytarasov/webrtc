@@ -17,8 +17,8 @@ const iceServers = {
     iceServers: [
         {
             urls: 'turn:212.237.217.86:3478',
-            username: '<YOUR_USERNAME>',
-            credential: '<YOUR_PASSWORD>'
+            username: 'testuser',
+            credential: 'password123'
         }
     ]
 };
