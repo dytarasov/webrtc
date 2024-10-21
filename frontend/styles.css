@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2; /* Еле серый фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.video-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80vw;
+    margin-bottom: 20px;
+}
+
+video {
+    width: 48%;
+    border-radius: 10px;
+    background-color: #000;
+}
+
+#local-video {
+    transform: scaleX(-1); /* Отзеркаливание локального видео */
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.control-button {
+    background-color: #ffffff; /* Белый цвет кнопок */
+    color: #000;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 40px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.control-button:hover {
+    background-color: #e6e6e6; /* Легкий серый при наведении */
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Видео Чат Рулетка</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-screen" class="screen">
+        <h2>Вход</h2>
+        <button id="login-button">Войти</button>
+    </div>
+
+    <div id="chat-screen" class="screen hidden">
+        <div class="video-container">
+            <video id="remote-video" autoplay></video>
+            <video id="local-video" autoplay muted></video>
+        </div>
+        <div class="controls">
+            <button id="next-button" class="control-button">Далее</button>
+            <button id="stop-button" class="control-button">Стоп</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
