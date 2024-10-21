@@ -4,13 +4,13 @@ FROM python:3.12 as backend
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем файл requirements.txt
-COPY requirements.txt /app/
+# Копируем файл requirements.txt из директории /app
+COPY ./app/requirements.txt /app/
 
 # Устанавливаем зависимости, включая Uvicorn
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем все файлы приложения
+# Копируем все файлы приложения из директории /app
 COPY ./app /app
 
 # Stage 2: Подготовка Nginx для раздачи фронта и проксирования
@@ -29,4 +29,4 @@ COPY --from=backend /app /app
 RUN apk add --no-cache python3 py3-pip && pip install uvicorn
 
 # Команда для запуска Uvicorn и Nginx
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]
