@@ -105,11 +105,13 @@ function createPeerConnection() {
 
     // Обработка ICE кандидатов
     peerConnection.onicecandidate = event => {
-        if (event.candidate) {
+        if (event.candidate && websocket.readyState === WebSocket.OPEN) {
             websocket.send(JSON.stringify({
                 type: 'candidate',
                 candidate: event.candidate
             }));
+        } else if (websocket.readyState !== WebSocket.OPEN) {
+            console.error("WebSocket ещё не готов к отправке данных.");
         }
     };
 
@@ -118,7 +120,11 @@ function createPeerConnection() {
         try {
             const offer = await peerConnection.createOffer();
             await peerConnection.setLocalDescription(offer);
-            websocket.send(JSON.stringify({ type: 'offer', offer: offer }));
+            if (websocket.readyState === WebSocket.OPEN) {
+                websocket.send(JSON.stringify({ type: 'offer', offer: offer }));
+            } else {
+                console.error("WebSocket ещё не готов к отправке данных.");
+            }
         } catch (error) {
             console.error('Ошибка при создании предложения:', error);
         }
