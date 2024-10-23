@@ -5,3 +5,5 @@ passlib[bcrypt]
 python-jose[cryptography]
 pydantic
 python-multipart
+uvicorn[standard]
+websockets
