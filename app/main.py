@@ -76,9 +76,12 @@ manager = ConnectionManager()
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)):
     await manager.connect(websocket)
+    print(f"Client connected: {websocket.client}")
     try:
         while True:
             data = await websocket.receive_text()
+            print(f"Received data: {data} from {websocket.client}")
             await manager.broadcast(data, websocket)
     except WebSocketDisconnect:
+        print(f"Client disconnected: {websocket.client}")
         manager.disconnect(websocket)
