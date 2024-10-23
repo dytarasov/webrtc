@@ -6,6 +6,10 @@ services:
     container_name: fullstack-app
     ports:
       - "80:80"
+      - "443:443"  # Добавляем порт для HTTPS
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt  # Для хранения сертификатов Let's Encrypt
+      - ./webroot:/usr/share/nginx/html  # Для Let's Encrypt challenge
     networks:
       - app-network
 
