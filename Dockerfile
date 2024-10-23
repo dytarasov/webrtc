@@ -28,7 +28,6 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # Копируем файлы фронтенда в директорию, из которой Nginx раздает статику
 COPY ./frontend /usr/share/nginx/html
-COPY /etc/letsencrypt /etc/letsencrypt
 
 # Копируем FastAPI сервер и виртуальное окружение из предыдущего слоя в контейнер
 COPY --from=backend /app /app
