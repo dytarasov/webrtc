@@ -9,18 +9,6 @@ services:
     networks:
       - app-network
 
-  nginx-certbot:
-    image: nginx:alpine
-    container_name: nginx-certbot
-    volumes:
-      - ./webroot:/usr/share/nginx/html
-    ports:
-      - "80:80"  # Только для валидации на порту 80
-    networks:
-      - app-network
-    command: >
-      sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
-
 networks:
   app-network:
     driver: bridge
