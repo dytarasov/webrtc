@@ -58,7 +58,7 @@ async function startChat() {
     }
 
     // Устанавливаем WebSocket соединение с сигнальным сервером
-    websocket = new WebSocket('wss://strangerstolk.ru/ws');
+    websocket = new WebSocket('wss://strangerstolk.ru/ws/');
 
     websocket.onopen = () => {
         console.log('WebSocket соединение установлено');
